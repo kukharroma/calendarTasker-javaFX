@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="272.0" prefWidth="359.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.TaskerController">
+   <children>
+      <DatePicker fx:id="dpDate" layoutX="187.0" layoutY="13.0" prefHeight="25.0" prefWidth="166.0" />
+      <ListView fx:id="lvTaskList" layoutX="7.0" layoutY="13.0" prefHeight="246.0" prefWidth="168.0" />
+      <TextField fx:id="tfTask" alignment="TOP_CENTER" layoutX="187.0" layoutY="146.0" prefHeight="25.0" prefWidth="166.0" />
+      <Button fx:id="btnAdd" layoutX="187.0" layoutY="175.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="166.0" text="Додати" />
+      <Button fx:id="btnDelete" layoutX="187.0" layoutY="204.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="166.0" text="Видалити" />
+      <Button fx:id="btnSave" layoutX="187.0" layoutY="233.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="166.0" text="Зберегти" />
+   </children>
+</Pane>
