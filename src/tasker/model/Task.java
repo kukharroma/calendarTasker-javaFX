@@ -1,23 +1,25 @@
 package model;
 
 
+import java.io.Serializable;
 import java.util.LinkedList;
 
 /**
  * Created by V&R on 24.12.15.
  */
-public class Task {
-    LinkedList<String> taskList = new LinkedList<String>();
+public class Task implements Serializable{
 
-    public LinkedList<String> getTaskList() {
-        return taskList;
+    private String taskName;
+
+    public Task(String taskName) {
+        this.taskName = taskName;
     }
 
-    public void setTaskList(LinkedList<String> taskList) {
-        this.taskList = taskList;
+    public String getTaskName() {
+        return taskName;
     }
 
-    public void setElementToTaskList(String s){
-        taskList.add(s);
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
     }
 }

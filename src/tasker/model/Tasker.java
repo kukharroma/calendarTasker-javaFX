@@ -5,6 +5,7 @@ import serializable.TaskSerializator;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -14,7 +15,7 @@ public class Tasker implements Serializable {
 
     private static Tasker instance;
     private static boolean isSaved;
-    private Map<String, LinkedList<String>> taskMap = new HashMap<>();
+    private Map<String, List<Task>> taskMap = new HashMap<>();
 
 
     private Tasker() {
@@ -30,11 +31,11 @@ public class Tasker implements Serializable {
         return instance;
     }
 
-    public Map<String, LinkedList<String>> getTaskMap() {
+    public Map<String, List<Task>> getTaskMap() {
         return taskMap;
     }
 
-    public void setTaskMap(Map<String, LinkedList<String>> taskMap) {
+    public void setTaskMap(Map<String, List<Task>> taskMap) {
         this.taskMap = taskMap;
     }
 

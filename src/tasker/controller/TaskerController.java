@@ -7,6 +7,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.util.Callback;
+import model.Task;
 import model.Tasker;
 import serializable.TaskSerializator;
 
@@ -22,7 +24,7 @@ public class TaskerController implements Initializable {
     @FXML
     private DatePicker dpDate;
     @FXML
-    private ListView<String> lvTaskList;
+    private ListView<Task> lvTaskList;
     @FXML
     private TextField tfTask;
     @FXML
@@ -58,14 +60,32 @@ public class TaskerController implements Initializable {
     }
 
     public void showListByDate(){
+
         String localDate = dpDate.getValue().toString();
 
         if (tasker.getTaskMap().get(localDate) == null) {
-            tasker.getTaskMap().put(localDate, new LinkedList<String>());
+            tasker.getTaskMap().put(localDate, new ArrayList<Task>());
         }
 
-        LinkedList<String> data = tasker.getTaskMap().get(localDate);
-        ObservableList<String> tasks = FXCollections.observableArrayList(data);
+        List<Task> data = tasker.getTaskMap().get(localDate);
+        ObservableList<Task> tasks = FXCollections.observableArrayList(data);
+        lvTaskList.setCellFactory(new Callback<ListView<Task>, ListCell<Task>>() {
+
+            @Override
+            public ListCell<Task> call(ListView<Task> param) {
+                ListCell<Task> cell = new ListCell<Task>() {
+
+                    @Override
+                    protected void updateItem(Task task, boolean empty) {
+                        super.updateItem(task, empty);
+                        if (task != null) {
+                            setText(task.getTaskName());
+                        }
+                    }
+                };
+                return cell;
+            }
+        });
         lvTaskList.setItems(tasks);
     }
 
@@ -73,11 +93,11 @@ public class TaskerController implements Initializable {
         btnAdd.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                String textField = tfTask.getText();
+                Task task = new Task(tfTask.getText());
                 LocalDate localDate = dpDate.getValue();
-                LinkedList<String> data = tasker.getTaskMap().get(localDate.toString());
-                data.add(textField);
-                ObservableList<String> tasks = FXCollections.observableArrayList(data);
+                List<Task> data = tasker.getTaskMap().get(localDate.toString());
+                data.add(task);
+                ObservableList<Task> tasks = FXCollections.observableArrayList(data);
                 lvTaskList.setItems(tasks);
                 Tasker.setIsSaved(false);
             }
