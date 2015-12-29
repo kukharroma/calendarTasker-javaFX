@@ -1,28 +1,49 @@
 package model;
 
-import javafx.scene.control.ListView;
+import serializable.TaskSerializator;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.LinkedList;
 import java.util.Map;
 
 /**
- * Created by roma on 24.12.15.
+ * Created by V&R on 24.12.15.
  */
 public class Tasker implements Serializable {
-    Map<String, List<String>> taskMap = new HashMap<>();
+
+    private static Tasker instance;
+    private static boolean isSaved;
+    private Map<String, LinkedList<String>> taskMap = new HashMap<>();
 
 
+    private Tasker() {
 
-    public Map<String, List<String>> getTaskMap() {
+    }
+
+    public static Tasker getInstance() {
+        if (instance == null) {
+            instance = TaskSerializator.deserialize();
+            if (instance == null)
+                instance = new Tasker();
+        }
+        return instance;
+    }
+
+    public Map<String, LinkedList<String>> getTaskMap() {
         return taskMap;
     }
 
-    public void setTaskMap(Map<String, List<String>> taskMap) {
+    public void setTaskMap(Map<String, LinkedList<String>> taskMap) {
         this.taskMap = taskMap;
-
     }
 
+    public static boolean isSaved() {
+        return isSaved;
+    }
+
+    public static void setIsSaved(boolean isSaved) {
+        Tasker.isSaved = isSaved;
+    }
 }
+

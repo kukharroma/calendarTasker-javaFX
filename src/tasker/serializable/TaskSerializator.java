@@ -1,14 +1,12 @@
 package serializable;
 
-import model.Task;
 import model.Tasker;
 import service.FileService;
-import sun.nio.ch.FileKey;
 
 import java.io.*;
 
 /**
- * Created by roma on 24.12.15.
+ * Created by V&R on 24.12.15.
  */
 public class TaskSerializator {
 
