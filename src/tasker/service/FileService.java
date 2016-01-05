@@ -7,10 +7,10 @@ import java.io.IOException;
  * Created by V&R on 24.12.15.
  */
 public class FileService {
-    public static final String PATH ="src/res/tasker.txt";
 
-    public static void createFile() {
-        File file = new File(PATH);
+
+    public static void createFile(String path) {
+        File file = new File(path);
         try {
             file.createNewFile();
         } catch (IOException e) {
@@ -18,8 +18,8 @@ public class FileService {
         }
     }
 
-    public static boolean isFileExists() {
-        File file = new File(PATH);
+    public static boolean isFileExists(String path) {
+        File file = new File(path);
         return file.exists();
     }
 

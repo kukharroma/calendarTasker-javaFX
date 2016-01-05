@@ -2,6 +2,7 @@ package model;
 
 import serializable.TaskSerializator;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -15,6 +16,8 @@ public class Tasker implements Serializable {
 
     private static Tasker instance;
     private static boolean isSaved;
+    private static File taskerFile;
+
     private Map<String, List<Task>> taskMap = new HashMap<>();
 
 
@@ -22,9 +25,9 @@ public class Tasker implements Serializable {
 
     }
 
-    public static Tasker getInstance() {
+    public static Tasker getInstance(File file) {
         if (instance == null) {
-            instance = TaskSerializator.deserialize();
+            instance = TaskSerializator.deserialize(file);
             if (instance == null)
                 instance = new Tasker();
         }
@@ -46,5 +49,16 @@ public class Tasker implements Serializable {
     public static void setIsSaved(boolean isSaved) {
         Tasker.isSaved = isSaved;
     }
+
+    public static File getTaskerFile() {
+        return taskerFile;
+    }
+
+    public static void setTaskerFile(File taskerFile) {
+        Tasker.taskerFile = taskerFile;
+    }
+
+
+
 }
 

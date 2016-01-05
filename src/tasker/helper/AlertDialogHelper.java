@@ -27,7 +27,7 @@ public class AlertDialogHelper {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == buttonTypeYes) {
-            TaskSerializator.serialize(Tasker.getInstance());
+            TaskSerializator.serialize(Tasker.getInstance(Tasker.getTaskerFile()),Tasker.getTaskerFile().getPath());
             Platform.exit();
         } else if (result.get() == buttonTypeNo) {
             Platform.exit();

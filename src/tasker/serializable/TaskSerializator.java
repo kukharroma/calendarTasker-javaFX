@@ -10,18 +10,18 @@ import java.io.*;
  */
 public class TaskSerializator {
 
-    public static void serialize(Tasker tasker) {
-        try (ObjectOutputStream obOutpStr = new ObjectOutputStream(new FileOutputStream(FileService.PATH))) {
+    public static void serialize(Tasker tasker, String path) {
+        try (ObjectOutputStream obOutpStr = new ObjectOutputStream(new FileOutputStream(path))) {
             obOutpStr.writeObject(tasker);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static Tasker deserialize() {
+    public static Tasker deserialize(File file) {
         Tasker tasker = null;
-        if (new File(FileService.PATH).length() != 0)
-            try (ObjectInputStream obInpStr = new ObjectInputStream(new FileInputStream(FileService.PATH))) {
+        if (new File(file.getPath()).length() != 0)
+            try (ObjectInputStream obInpStr = new ObjectInputStream(new FileInputStream(file.getPath()))) {
                 tasker = (Tasker) obInpStr.readObject();
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();

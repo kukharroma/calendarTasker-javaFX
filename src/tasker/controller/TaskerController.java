@@ -35,17 +35,19 @@ public class TaskerController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         initTasker();
+        Tasker.setIsSaved(true);
         initCurentDate();
         setBtnAddListener();
         setDatePickerListener();
         setBtnSaveListener();
+        setBtnDeleteListener();
     }
 
     public void initTasker() {
-        tasker = Tasker.getInstance();
+        tasker = Tasker.getInstance(Tasker.getTaskerFile());
     }
 
-    public void initCurentDate(){
+    public void initCurentDate() {
         dpDate.setValue(LocalDate.now());
         showListByDate();
     }
@@ -59,7 +61,7 @@ public class TaskerController implements Initializable {
         });
     }
 
-    public void showListByDate(){
+    public void showListByDate() {
 
         String localDate = dpDate.getValue().toString();
 
@@ -93,23 +95,41 @@ public class TaskerController implements Initializable {
         btnAdd.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Task task = new Task(tfTask.getText());
-                LocalDate localDate = dpDate.getValue();
-                List<Task> data = tasker.getTaskMap().get(localDate.toString());
-                data.add(task);
-                ObservableList<Task> tasks = FXCollections.observableArrayList(data);
-                lvTaskList.setItems(tasks);
-                Tasker.setIsSaved(false);
+                if (!tfTask.getText().isEmpty()) {
+                    Task task = new Task(tfTask.getText());
+                    LocalDate localDate = dpDate.getValue();
+                    List<Task> data = tasker.getTaskMap().get(localDate.toString());
+                    data.add(task);
+                    ObservableList<Task> tasks = FXCollections.observableArrayList(data);
+                    lvTaskList.setItems(tasks);
+                    Tasker.setIsSaved(false);
+                }
             }
         });
     }
 
-    public void setBtnSaveListener(){
+    public void setBtnSaveListener() {
         btnSave.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                TaskSerializator.serialize(Tasker.getInstance());
+                TaskSerializator.serialize(Tasker.getInstance(Tasker.getTaskerFile()),Tasker.getTaskerFile().getPath());
                 Tasker.setIsSaved(true);
+            }
+        });
+    }
+
+    public void setBtnDeleteListener() {
+        btnDelete.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Task selectedTask = lvTaskList.getSelectionModel().getSelectedItem();
+                LocalDate localDate = dpDate.getValue();
+                List<Task> data = tasker.getTaskMap().get(localDate.toString());
+                data.remove(selectedTask);
+                ObservableList<Task> tasks = FXCollections.observableArrayList(data);
+                lvTaskList.setItems(tasks);
+                Tasker.setIsSaved(false);
+                showListByDate();
             }
         });
     }
