@@ -122,12 +122,18 @@ public class TaskerController implements Initializable {
         btnDelete.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+                int position=lvTaskList.getSelectionModel().getSelectedIndex();
                 Task selectedTask = lvTaskList.getSelectionModel().getSelectedItem();
                 LocalDate localDate = dpDate.getValue();
                 List<Task> data = tasker.getTaskMap().get(localDate.toString());
                 data.remove(selectedTask);
                 ObservableList<Task> tasks = FXCollections.observableArrayList(data);
                 lvTaskList.setItems(tasks);
+                lvTaskList.getSelectionModel().select(position);
+                lvTaskList.getFocusModel().focus(position);
+                lvTaskList.scrollTo(position);
+
+
                 Tasker.setIsSaved(false);
                 showListByDate();
             }

@@ -13,8 +13,10 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import model.Tasker;
 import serializable.TaskSerializator;
+import service.FileService;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Optional;
 
 
@@ -53,42 +55,40 @@ public class Main extends Application {
             Tasker.setTaskerFile(taskerFile);
             if(taskerFile!=null){
                 TaskSerializator.deserialize(taskerFile);
-                Parent root = FXMLLoader.load(getClass().getResource(Tasker.getTaskerFile().getPath()));
-                stage.setScene(new Scene(root));
-                stage.show();
-                stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                    @Override
-                    public void handle(WindowEvent event) {
-                        if (!Tasker.isSaved())
-                            AlertDialogHelper.showCloseDialog(event);
-                    }
-                });
+                showMainScene(stage);
             }
-
-
-
-
         } else if (result.get() == buttonCreate) {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Вкажіть місце куди зберегти Ваш файл");
-            fileChooser.showSaveDialog(stage);
-        } else {
-            alert.close();
+            File taskerFile=fileChooser.showSaveDialog(stage);
+            FileService.createFile(taskerFile.toPath().toString());
+
+            Tasker.setTaskerFile(taskerFile);
+            showMainScene(stage);
+
+        }
+    }
+
+    private void showMainScene(Stage stage){
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getResource("/src/res/viewTasker.fxml"));
+            stage.setScene(new Scene(root));
+            stage.show();
+            stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                @Override
+                public void handle(WindowEvent event) {
+                    if (!Tasker.isSaved())
+                        AlertDialogHelper.showCloseDialog(event);
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-
-//        Parent root = FXMLLoader.load(getClass().getResource(VIEW_PATH));
-//        stage.setScene(new Scene(root));
-//        stage.show();
-//        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-//            @Override
-//            public void handle(WindowEvent event) {
-//                if(!Tasker.isSaved())
-//                    AlertDialogHelper.showCloseDialog(event);
-//            }
-//        });
-
     }
+
+
 
 
 }
